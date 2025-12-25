@@ -4,7 +4,7 @@ neurotimer is a science-based study timer designed to optimize learning efficien
 
 ## Core Methodology
 
-The application moves beyond blocked practice by automating the followåing cognitive science techniques:
+The application moves beyond blocked practice by automating the following cognitive science techniques:
 
 ### Interleaving
 The timer automatically switches between different subjects within a single session. This forces the brain to constantly reload context, improving discrimination learning and long-term retention.
