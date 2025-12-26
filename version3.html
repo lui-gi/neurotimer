@@ -97,28 +97,17 @@
             border-radius: 8px;
             padding: 2.5rem;
             margin: 0 auto;
+            position: relative; /* Ensure z-index context */
+            overflow: hidden; /* For the wave */
         }
 
-        /* Phase-specific card backgrounds */
-        .central-card.phase-priming {
-            background: var(--phase-priming-card-bg);
-            transition: background 0.8s ease;
-        }
-
-        .central-card.phase-deepwork {
-            background: var(--phase-deepwork-card-bg);
-            transition: background 0.8s ease;
-        }
-
-        .central-card.phase-break {
-            background: var(--phase-break-card-bg);
-            transition: background 0.8s ease;
-        }
-
-        .central-card.phase-recall {
-            background: var(--phase-recall-card-bg);
-            transition: background 0.8s ease;
-        }
+        /* Phase-specific card backgrounds - DISABLED to allow Wave Fill */
+        /* 
+        .central-card.phase-priming { background: var(--phase-priming-card-bg); transition: background 0.8s ease; }
+        .central-card.phase-deepwork { background: var(--phase-deepwork-card-bg); transition: background 0.8s ease; }
+        .central-card.phase-break { background: var(--phase-break-card-bg); transition: background 0.8s ease; }
+        .central-card.phase-recall { background: var(--phase-recall-card-bg); transition: background 0.8s ease; }
+        */
 
         /* Washi Paper Texture - Base grain pattern */
         .central-card::before {
@@ -168,6 +157,63 @@
             transition: opacity 0.8s ease;
         }
 
+        /* WAVE PROGRESS VISUAL */
+        #wave-progress-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #wave-progress-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 0%; 
+            transition: height 1s linear;
+            background-color: currentColor;
+            opacity: 0.6; /* Slight transparency for texture to show through? */
+        }
+
+        #wave-progress-fill::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 100%;
+            width: 200%;
+            height: 30px;
+            background-color: currentColor;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 60' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,60 L0,30 Q300,0 600,30 T1200,30 L1200,60 Z' fill='black'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 60' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,60 L0,30 Q300,0 600,30 T1200,30 L1200,60 Z' fill='black'/%3E%3C/svg%3E");
+            -webkit-mask-size: 50% 100%;
+            mask-size: 50% 100%;
+            -webkit-mask-repeat: repeat-x;
+            mask-repeat: repeat-x;
+            animation: waveSlide 6s linear infinite;
+        }
+
+        @keyframes waveSlide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Phase Colors for Wave */
+        #wave-progress-fill.phase-priming { color: var(--phase-priming-bg-start); }
+        #wave-progress-fill.phase-deepwork { color: var(--phase-deepwork-bg-start); }
+        #wave-progress-fill.phase-break { color: var(--phase-break-bg-start); }
+        #wave-progress-fill.phase-recall { color: var(--phase-recall-bg-start); }
+
+        /* Ensure content sits above wave */
+        .timer-container, .queue-progress-header, #session-phase-badge, #priming-controls, #deep-work-controls, #break-controls, #timer-actions, .central-card > div {
+            position: relative;
+            z-index: 10;
+        }
+
         /* Phase-specific washi texture tinting */
         .central-card.phase-priming::before {
             background-color: rgba(213, 207, 200, 0.03);
@@ -183,39 +229,6 @@
 
         .central-card.phase-recall::before {
             background-color: rgba(208, 213, 216, 0.03);
-        }
-
-        /* Botanical decoration - subtle organic accent */
-        .botanical-decoration {
-            position: absolute;
-            pointer-events: none;
-            transition: opacity 0.8s ease, color 0.8s ease;
-            opacity: 0.06;
-            z-index: 3;
-        }
-
-        .botanical-top-right {
-            top: -30px;
-            right: -30px;
-            width: 180px;
-            height: 180px;
-        }
-
-        /* Phase-specific botanical colors */
-        .central-card.phase-priming .phase-botanical {
-            color: var(--phase-priming-border);
-        }
-
-        .central-card.phase-deepwork .phase-botanical {
-            color: var(--phase-deepwork-border);
-        }
-
-        .central-card.phase-break .phase-botanical {
-            color: var(--phase-break-border);
-        }
-
-        .central-card.phase-recall .phase-botanical {
-            color: var(--phase-recall-border);
         }
 
         /* Utility Classes */
@@ -778,50 +791,8 @@
         #screen-onboarding > *:not(#hero-header) { animation: fadeInUp 0.8s ease-out 2s backwards; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Breathing Circle Animation */
-        .breathing-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 300px;
-            height: 300px;
-            transform: translate(-50%, -50%) scale(0.85);
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(124, 139, 111, 0.12) 0%, rgba(124, 139, 111, 0.06) 40%, transparent 70%);
-            filter: blur(2px);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 0;
-            transition: opacity 1s ease-in-out;
-        }
 
-        .breathing-circle.active {
-            opacity: 1;
-            animation: breathingCycle 19s ease-in-out infinite;
-        }
 
-        /* 4-7-8 Breathing Cycle: 4s inhale, 7s hold, 8s exhale */
-        @keyframes breathingCycle {
-            0% {
-                transform: translate(-50%, -50%) scale(0.85);
-                filter: blur(2px);
-            }
-            /* Inhale (4s = 21% of 19s) */
-            21% {
-                transform: translate(-50%, -50%) scale(1.15);
-                filter: blur(3px);
-            }
-            /* Hold (7s more = 58% total) */
-            58% {
-                transform: translate(-50%, -50%) scale(1.15);
-                filter: blur(3px);
-            }
-            /* Exhale (8s more = 100%) */
-            100% {
-                transform: translate(-50%, -50%) scale(0.85);
-                filter: blur(2px);
-            }
-        }
 
         .timer-container {
             position: relative;
@@ -966,6 +937,9 @@
     </div>
 
     <div id="screen-session" class="hidden central-card">
+        <div id="wave-progress-container">
+            <div id="wave-progress-fill"></div>
+        </div>
         <div class="queue-progress-header">
             <div class="queue-progress-bar-container">
                 <div class="queue-progress-bar" id="queue-progress-bar"></div>
@@ -986,16 +960,6 @@
         </div>
 
         <div class="timer-container">
-            <div class="breathing-circle" id="breathing-circle"></div>
-
-            <!-- Botanical decoration - minimalist sage leaf -->
-            <svg class="botanical-decoration botanical-top-right" viewBox="0 0 200 200" aria-hidden="true">
-                <path class="phase-botanical"
-                      d="M100,50 Q120,70 115,95 Q110,115 95,125 Q85,120 80,110 Q75,95 78,80 Q82,65 100,50 Z M100,50 Q95,65 90,80 Q85,95 88,110 L95,125 M100,50 Q105,70 108,85 Q110,100 108,115"
-                      fill="currentColor"
-                      opacity="1"/>
-            </svg>
-
             <div id="session-subtitle">Subject Name</div>
             <h1 id="session-title">Chunk Name</h1>
             
@@ -1452,8 +1416,9 @@
         switchScreen('screen-session');
         document.getElementById('progress-container').classList.remove('hidden');
         
-        // Deactivate breathing circle during priming
-        document.getElementById('breathing-circle').classList.remove('active');
+        // Update Wave Visual Class
+        const waveFill = document.getElementById('wave-progress-fill');
+        if (waveFill) waveFill.className = 'phase-priming';
         
         document.getElementById('session-phase-badge').innerText = "PHASE 1: PRIMING";
         const badge = document.getElementById('session-phase-badge');
@@ -1492,8 +1457,9 @@
         const currentItem = state.queue[state.currentIndex];
         if (!currentItem) { showWrapUp(); return; }
         
-        // Activate breathing circle for deep work
-        document.getElementById('breathing-circle').classList.add('active');
+        // Update Wave Visual Class
+        const waveFill = document.getElementById('wave-progress-fill');
+        if (waveFill) waveFill.className = 'phase-deepwork';
         
         document.getElementById('session-phase-badge').innerText = "PHASE 2: DEEP WORK";
         const badge = document.getElementById('session-phase-badge');
@@ -1534,8 +1500,9 @@
         hideAllControls();
         document.getElementById('deep-work-controls').classList.remove('hidden');
         
-        // Keep breathing circle active during extended deep work
-        document.getElementById('breathing-circle').classList.add('active');
+        // Ensure Wave Visual Class is Deep Work
+        const waveFill = document.getElementById('wave-progress-fill');
+        if (waveFill) waveFill.className = 'phase-deepwork';
         
         document.getElementById('instruction-text').innerText = "Extended time active.";
         startTimer(5 * 60, handleChunkComplete);
@@ -1549,8 +1516,9 @@
         hideAllControls();
         document.getElementById('break-controls').classList.remove('hidden');
         
-        // Deactivate breathing circle during break
-        document.getElementById('breathing-circle').classList.remove('active');
+        // Update Wave Visual Class
+        const waveFill = document.getElementById('wave-progress-fill');
+        if (waveFill) waveFill.className = 'phase-break';
         
         document.getElementById('session-phase-badge').innerText = "REST";
         const badge = document.getElementById('session-phase-badge');
@@ -1581,9 +1549,6 @@
     function promptImmediateRecall() {
         isBreak = false;
         document.getElementById('progress-container').classList.add('hidden');
-        
-        // Deactivate breathing circle during recall
-        document.getElementById('breathing-circle').classList.remove('active');
         
         const currentItem = state.queue[state.currentIndex];
         if (!currentItem) { showWrapUp(); return; }
@@ -1753,6 +1718,10 @@
         document.getElementById('timer').innerText = `${m}:${s}`;
         const pct = ((totalDurationForBar - secondsLeft) / totalDurationForBar) * 100;
         document.getElementById('progress-fill').style.width = `${pct}%`;
+        
+        // Update Wave Progress
+        const waveFill = document.getElementById('wave-progress-fill');
+        if (waveFill) waveFill.style.height = `${pct}%`;
     }
 
     function playSound() {

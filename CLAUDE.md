@@ -60,10 +60,7 @@ The application has four distinct screens controlled by `switchScreen()`:
 - Visual indicators for completed, current, and upcoming items
 - Breadcrumb display in session header
 
-**Breathing Circle Animation (lines 493-536)**
-- 4-7-8 breathing technique visualization during deep work
-- CSS keyframe animation synchronized to 19-second cycle
-- Activated/deactivated based on study phase
+
 
 ## Development Workflow
 
@@ -140,13 +137,7 @@ These are referenced in the README research section and should be preserved when
 - Create new control group in HTML
 - Add phase transition function following `startChunkPhase()` pattern
 - Update `hideAllControls()` to include new control group
-- Manage breathing circle activation state
 
 **Changing Study Tips:**
 - Edit `studyTips` array (lines 894-900)
 - Tips rotate every 12 seconds (line 918)
-
-## To-Do's
-
--**Remove shapes that appear in the timer-container**: "breathing-circle" and "botanical-decoration". They do not serve the purpose I want to serve, so remove them and any related scripts.
--**Progress visual**: As the timer clocks down, a "wave" shape slowly rises until it completely fills the center card with color. Color changes depending on phase. Example: Phase 2 will have a green wave that slowly rises until the time reaches 0.
