@@ -141,3 +141,7 @@ These are referenced in the README research section and should be preserved when
 **Changing Study Tips:**
 - Edit `studyTips` array (lines 894-900)
 - Tips rotate every 12 seconds (line 918)
+
+## To-Do's
+
+-**Fix onHover at Session Complete Screen**: Progress ring at Session Complete screen does not show minutes and seconds spent on each phase onHover. On mouseHover, each segment of the ring should show the respective stat that it represents (Example: Study 1min30sec, Break 0min1sec)
