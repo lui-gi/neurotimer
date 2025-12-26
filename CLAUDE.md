@@ -145,3 +145,8 @@ These are referenced in the README research section and should be preserved when
 **Changing Study Tips:**
 - Edit `studyTips` array (lines 894-900)
 - Tips rotate every 12 seconds (line 918)
+
+## To-Do's
+
+-**Remove shapes that appear in the session screen center card**: I am going to try to add visual flare a different way.
+-**Progress visual**: As the timer clocks down, a "wave" shape slowly rises until it completely fills the center card with color. Color changes depending on phase. Example: Phase 2 will have a green wave that slowly rises until the time reaches 0.
